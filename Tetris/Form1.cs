@@ -12,6 +12,10 @@ namespace Tetris
         private Timers.Timer timer;
         private const float FPS = 120f;
         private float FRAMESIZE = 1000f / FPS;
+        private Painter painter = new Painter();
+        Shape player = Shape.GenerateTetromino();
+        Shape opponent = new Shape(0, 0, new Square[] {});
+
 
         public Form1()
         {
@@ -48,20 +52,10 @@ namespace Tetris
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            g.Clear(Color.FromArgb(33, 33, 33));
-
-            for (int i = 0; i < Config.COLUMNS; i++)
-            {
-                g.DrawLine(new Pen(Color.Gray), i * Config.SQUARE_SIZE, 0, i * Config.SQUARE_SIZE, Config.WINDOW_HEIGHT);
-            }
-            for (int i = 0; i < Config.ROWS; i++)
-            {
-                g.DrawLine(new Pen(Color.Gray), 0, i * Config.SQUARE_SIZE, Config.WINDOW_WIDTH, i * Config.SQUARE_SIZE);
-            }
-
-            // draw player
-
-            // draw opponent
+            painter.DrawBackground(g);
+            painter.DrawGuide(g);
+            painter.DrawShape(g, player);
+            painter.DrawShape(g, opponent);
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
